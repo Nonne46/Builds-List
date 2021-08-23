@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ .title }}</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="style.css"/>
+    <script src="jqs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+</head>
+<body>
+    <font color="DarkRed" size="3"><p align="center">Если у вас есть какие-либо приватные, старые, забытые, не найденные мной билды, что дополнить, то прошу вас кинуть это мне.<br/>
+    jabber:krevativat68@jabber.ru </p></font>
+    <div id="content">
+    <font size="4"><p align="center">Количество билдов: {{ .total }}</p></font>
+    <form method="post">
+        <input type="text" name="Search" class="mm" placeholder="Поиск">
+    </form>
+    <table class="mt">
+        <thead>
+            <tr>
+                <th height=40><font size="5">Название</font></th>
+                <th height=40><font size="5"><a class="maa">Жив?</a></font></th>
+                <th height=40><font size="5"><a class="maa">Тэги</a></font></th>
+                <th height=40><font size="5"><a class="maa">Автор репы</a></font></th>
+                <th height=40><font size="5"><a class="maa">Спасибо за билд</a></font></th>
+                <th height=40><font size="5"><a class="maa">Последний бекап</a></font></th>
+                <th height=40><font size="5">Кол-во комментов</font></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ range .builds }}
+            <tr class="md">
+                <td><a class="mda" href="{{ .Id }}"> {{ .Name }} </a></td>
+
+                {{ if .IsAlive }}
+                    <td style="color:#52E617;"> Alive </td>
+                {{ else }}
+                    <td style="color:#AA1717;"> Dead </td>
+                {{ end }}
+
+                <td> {{ .Tags }} </td>
+                <td> {{ .AuthorRepo }} </td>
+                <td> {{ .Thanks }} </td>
+                <td> {{ .BackupDate | formatAsDate }} </td>
+                <td> {{ .Id | countComments }}
+                </td>
+            </tr>
+            {{ end }}
+        </tbody>
+    </table>
+
+    </div>
+
+    <script>
+        $(function() {
+            $(".mt").tablesorter();
+        });
+    </script>
+</body>
+</html>

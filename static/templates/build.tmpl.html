@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ .title }}</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div id="contentB">
+    <a class="bName">{{ .build.Name }}</a><br/>
+    <a class="bDescription"><font size="5">Описание:</font><br/>{{ .build.Description }}</a><br/>
+
+    {{ if .build.IsAlive }}
+        <a class="bAlive"><font size="4">Cтатус:</font><br/>Alive</a><br/>
+    {{ else }}
+        <a class="bAlive"><font size="4">Cтатус:</font><br/>Dead</a><br/>
+    {{ end }}
+
+    <a class="bCategory"><font size="4">Тэги:</font><br/>{{ .build.Tags }}</a><br/>
+
+    {{ if ne .build.ByondVersion "0" }}
+        <a class="bbyondd">Byond Version: <a class="bbyondd" href="https://secure.byond.com/download/build/{{ .build.ByondVersion }}">{{ .build.ByondVersion }}</a></a><br/>
+    {{ else }}
+        <a class="bbyondd">Byond Version: Неизвестно. Требуется проверить!</a><br/>
+    {{ end }}
+
+    {{ if eq .build.Github "none" }}
+        <a class="bGithub">Нету репозитория зато бекап есть</a><br/>
+    {{ else }}
+        <a class="bGithub" href="{{ .build.Github }}">Repository</a><br/>
+    {{ end }}
+
+    <a class="bBackup" href="{{ .build.NameAddr }}.rar"><font size="4">backup: </font>{{ .build.BackupDate | formatAsDate }}</a><br/>
+    <br/><br/><br/><br/><br/>
+
+
+    <font size="5">Комментарии:</font>
+    <form name="comment" action="comment.php" method="post">
+    <input type="text" name="cName" placeholder="юзернейм" />
+    <input type="submit" value="Отправить" />
+    <br />
+    <textarea name="cComment" cols="30" rows="10" placeholder="коммент"></textarea>
+    <input type="hidden" name="page_id" value="$pId" /><br/>
+    </form>
+
+    <br/>
+
+    {{ range .comments }}
+    <p id="comment">{{ .Comment }}<a class="uu" align="right"><font color="Gray">{{ .Time | formatAsDate }} </font>©{{ .Username}}</a></p>
+    <br />
+    {{ end }}
+
+    </div>
+</body>
+</html>

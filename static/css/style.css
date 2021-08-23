@@ -1,0 +1,119 @@
+body {
+	background: url(background.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-color: #0a0c10;
+	font-family: 'Roboto Mono', monospace;
+}
+
+#content {
+	background-color: rgba(193, 212, 255, 0.5);
+	box-shadow: 0 0 15px #363636;
+	position: relative;
+	width: auto;
+	top: 50px;
+	margin: 0 auto;
+	padding: 15px;
+	border-radius: 5px;
+}
+
+#comment {
+	background-color: rgb(255, 255, 255);
+	box-shadow: 0 0 15px #7c7878;
+	position: relative;
+	width: auto;
+	margin: 0 auto;
+	padding: 15px;
+	border-radius: 10px;
+}
+
+.mt {
+	width:70%;
+	border-radius: 2px;
+	margin:auto;
+	background: rgba(156, 194, 236, 0.16);
+	text-align:center;
+}
+
+.mm {
+	width: 70%;
+	border-radius: 4px;
+	height: 20px;
+	display: block;
+	margin : 0 auto;
+}
+
+#contentB {
+	background-color: rgba(193, 212, 255, 0.5);
+	box-shadow: 0 0 15px #363636;
+	position: relative;
+	width: 0px auto;
+	top: 50px;
+	margin: 0 auto;
+	padding: 100px;
+	border-radius: 15px;
+}
+
+.bName {
+	position: relative;
+	font-size: 70px;
+}
+
+.bDescription{
+	position: relative;
+}
+
+.bAlive{
+	position: relative;
+
+	top:10px;
+}
+.bCategory{
+	position: relative;
+	top:20px;
+}
+
+.bbyondd{
+	position: relative;
+	top:30px;
+}
+
+.bGithub{
+	position: relative;
+	top:40px;
+}
+
+.bBackup{
+	position: relative;
+	top:50px;
+}
+
+.mda{
+	color:#000;
+	text-decoration: none;
+}
+
+.md:hover{
+	color:#000;
+	text-decoration: none;
+	margin: 0 auto;
+	padding: 5px;
+	border-radius: 1px;
+	box-shadow: 0 0 2px #000000;
+}
+
+td{
+	border-top-color: rgba(0,0,0,.4)
+}
+
+.uu{
+	bottom:1px;
+	position: absolute;
+	right:5px;
+}
+
+.maa{
+	color:#000;
+	text-decoration: none;
+}
