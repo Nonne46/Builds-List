@@ -7,8 +7,9 @@
 </head>
 <body>
     <div id="contentB">
+    {{.test}}
     <a class="bName">{{ .build.Name }}</a><br/>
-    <a class="bDescription"><font size="5">Описание:</font><br/>{{ .build.Description }}</a><br/>
+    <a class="bDescription"><font size="5">Описание:</font><br/>{{ .description }}</a><br/>
 
     {{ if .build.IsAlive }}
         <a class="bAlive"><font size="4">Cтатус:</font><br/>Alive</a><br/>
@@ -24,9 +25,7 @@
         <a class="bbyondd">Byond Version: Неизвестно. Требуется проверить!</a><br/>
     {{ end }}
 
-    {{ if eq .build.Github "none" }}
-        <a class="bGithub">Нету репозитория зато бекап есть</a><br/>
-    {{ else }}
+    {{ if ne .build.Github "none" }}
         <a class="bGithub" href="{{ .build.Github }}">Repository</a><br/>
     {{ end }}
 
@@ -46,8 +45,8 @@
     <br/>
 
     {{ range .comments }}
-    <p id="comment">{{ .Comment }}<a class="uu" align="right"><font color="Gray">{{ .Time | formatAsDate }} </font>©{{ .Username}}</a></p>
-    <br />
+        <p id="comment">{{ .Comment }}<a class="uu" align="right"><font color="Gray">{{ .Time | formatAsDate }} </font>©{{ .Username}}</a></p>
+        <br />
     {{ end }}
 
     </div>

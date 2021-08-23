@@ -32,7 +32,7 @@ func (r *CommentRepository) FindByBuildId(id int) []model.Comment {
 func (r *CommentRepository) CountByBuildId(id int) int {
 	var count int
 
-	row := r.store.db.QueryRow("SELECT COUNT(*) FROM comments WHERE idPage LIKE ?", id)
+	row := r.store.db.QueryRow("SELECT COUNT(*) FROM comments WHERE idPage = $1", id)
 	row.Scan(&count)
 
 	return count

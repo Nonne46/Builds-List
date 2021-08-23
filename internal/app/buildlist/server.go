@@ -52,13 +52,19 @@ func (s *server) configureRouter() {
 
 		if err != nil {
 			c.JSON(404, gin.H{"code": "BUILD_NOT_FOUND", "message": err.Error()})
+			c.Abort()
+			return
 		}
+
+		description := template.HTML(build.Description)
+
 		comments := s.store.Comment().FindByBuildId(build.Id)
 
 		c.HTML(http.StatusOK, "build.tmpl.html", gin.H{
-			"title":    build.Name,
-			"build":    build,
-			"comments": comments,
+			"title":       build.Name,
+			"build":       build,
+			"description": description,
+			"comments":    comments,
 		})
 
 	})
@@ -74,9 +80,12 @@ func (s *server) configureRouter() {
 
 		if err != nil {
 			c.JSON(404, gin.H{"code": "BUILD_NOT_FOUND", "message": err.Error()})
-		} else {
-			c.JSON(http.StatusOK, build)
+			c.Abort()
+			return
 		}
+
+		c.JSON(http.StatusOK, build)
+
 	})
 
 	s.router.POST("/", func(c *gin.Context) {
