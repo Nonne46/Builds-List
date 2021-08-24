@@ -10,6 +10,23 @@ type CommentRepository struct {
 	store *Store
 }
 
+func (r *CommentRepository) AddComment(c *model.Comment) error {
+	c.CheckUsername()
+
+	if err := c.CheckMessage(); err != nil {
+		return err
+	}
+
+	_, err := r.store.db.Exec(
+		"INSERT INTO comments (idPage, userName, commentText, time) VALUES ($1, $2, $3, $4)",
+		c.IdPage,
+		c.Username,
+		c.Comment,
+		c.Time,
+	)
+	return err
+}
+
 func (r *CommentRepository) FindByBuildId(id int) []model.Comment {
 	comments := []model.Comment{}
 

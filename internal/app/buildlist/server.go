@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Nonne46/Builds-List/internal/app/model"
 	"github.com/Nonne46/Builds-List/internal/app/store"
 	"github.com/gin-gonic/gin"
 )
@@ -33,6 +34,7 @@ func (s *server) configureRouter() {
 	s.router.SetFuncMap(template.FuncMap{
 		"formatAsDate":  formatAsDate,
 		"countComments": s.store.Comment().CountByBuildId,
+		"toHTML":        toHTML,
 	})
 
 	s.router.GET("/", func(c *gin.Context) {
@@ -56,15 +58,12 @@ func (s *server) configureRouter() {
 			return
 		}
 
-		description := template.HTML(build.Description)
-
 		comments := s.store.Comment().FindByBuildId(build.Id)
 
 		c.HTML(http.StatusOK, "build.tmpl.html", gin.H{
-			"title":       build.Name,
-			"build":       build,
-			"description": description,
-			"comments":    comments,
+			"title":    build.Name,
+			"build":    build,
+			"comments": comments,
 		})
 
 	})
@@ -99,17 +98,41 @@ func (s *server) configureRouter() {
 		})
 	})
 
+	s.router.POST("/addComment", func(c *gin.Context) {
+
+		pageId, err := strconv.Atoi(c.PostForm("pageId"))
+		if err != nil {
+			c.Abort()
+			return
+		}
+		username := c.PostForm("username")
+		commentText := c.PostForm("commentText")
+
+		comment := &model.Comment{
+			IdPage:   pageId,
+			Username: username,
+			Comment:  commentText,
+			Time:     time.Now(),
+		}
+
+		s.store.Comment().AddComment(comment)
+
+		c.Redirect(http.StatusFound, c.PostForm("pageId"))
+	})
+
 }
 
 func (s *server) loadStatic() {
 	s.router.LoadHTMLGlob("./static/templates/*")
-	s.router.StaticFile("/style.css", "./static/css/style.css")
-	s.router.StaticFile("/background.jpg", "./static/img/background.jpg")
 	s.router.StaticFile("/favicon.ico", "./static/img/favicon.ico")
-	s.router.StaticFile("/jqs.js", "./static/js/jquery-3.6.0.slim.min.js")
+	s.router.Static("/assets", "./static")
 }
 
 func formatAsDate(t time.Time) string {
 	year, month, day := t.Date()
 	return fmt.Sprintf("%d/%02d/%02d", year, month, day)
+}
+
+func toHTML(data string) template.HTML {
+	return template.HTML(data)
 }

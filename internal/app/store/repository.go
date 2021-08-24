@@ -10,6 +10,7 @@ type BuildRepository interface {
 }
 
 type CommentRepository interface {
+	AddComment(*model.Comment) error
 	FindByBuildId(int) []model.Comment
 	CountByBuildId(int) int
 }

@@ -3,13 +3,13 @@
 <head>
     <title>{{ .title }}</title>
     <meta charset="UTF-8"/>
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="/assets/css/style.css"/>
 </head>
 <body>
     <div id="contentB">
     {{.test}}
     <a class="bName">{{ .build.Name }}</a><br/>
-    <a class="bDescription"><font size="5">Описание:</font><br/>{{ .description }}</a><br/>
+    <a class="bDescription"><font size="5">Описание:</font><br/>{{ .build.Description | toHTML }}</a><br/>
 
     {{ if .build.IsAlive }}
         <a class="bAlive"><font size="4">Cтатус:</font><br/>Alive</a><br/>
@@ -34,12 +34,13 @@
 
 
     <font size="5">Комментарии:</font>
-    <form name="comment" action="comment.php" method="post">
-    <input type="text" name="cName" placeholder="юзернейм" />
-    <input type="submit" value="Отправить" />
-    <br />
-    <textarea name="cComment" cols="30" rows="10" placeholder="коммент"></textarea>
-    <input type="hidden" name="page_id" value="$pId" /><br/>
+    <form action="/addComment" method="post">
+        <input type="hidden" name="pageId" value="{{ .build.Id }}" /><br/>
+        <input type="text" name="username" placeholder="юзернейм" />
+        <input type="submit" value="Отправить" />
+        <br/>
+        <textarea name="commentText" cols="30" rows="10" placeholder="коммент"></textarea>
+        <br/>
     </form>
 
     <br/>
