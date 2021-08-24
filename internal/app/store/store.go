@@ -4,4 +4,5 @@ package store
 type Store interface {
 	Build() BuildRepository
 	Comment() CommentRepository
+	User() UserRepository
 }

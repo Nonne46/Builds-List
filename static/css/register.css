@@ -1,0 +1,12 @@
+body {
+	background: url(/assets/img/background.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-color: #0a0c10;
+	font-family: 'Roboto Mono', monospace;
+}
+
+.ar {
+    white-space: pre;
+}

@@ -10,6 +10,7 @@ type Store struct {
 	db                *sql.DB
 	buildRepository   *BuildRepository
 	commentRepository *CommentRepository
+	userRepository    *UserRepository
 }
 
 func New(db *sql.DB) *Store {
@@ -40,4 +41,16 @@ func (s *Store) Comment() store.CommentRepository {
 	}
 
 	return s.commentRepository
+}
+
+func (s *Store) User() store.UserRepository {
+	if s.userRepository != nil {
+		return s.userRepository
+	}
+
+	s.userRepository = &UserRepository{
+		store: s,
+	}
+
+	return s.userRepository
 }

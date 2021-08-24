@@ -14,3 +14,9 @@ type CommentRepository interface {
 	FindByBuildId(int) []model.Comment
 	CountByBuildId(int) int
 }
+
+type UserRepository interface {
+	CreateUser(*model.User) error
+	FindById(int) (*model.User, error)
+	FindByEmail(string) (*model.User, error)
+}

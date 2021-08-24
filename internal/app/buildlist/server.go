@@ -68,23 +68,9 @@ func (s *server) configureRouter() {
 
 	})
 
-	s.router.GET("/json", func(c *gin.Context) {
-		c.JSON(http.StatusOK, s.store.Build().GetBuilds())
-	})
+	s.router.GET("/registration", func(c *gin.Context) {
 
-	s.router.GET("/json/:id", func(c *gin.Context) {
-		buildId, _ := strconv.Atoi(c.Param("id"))
-
-		build, err := s.store.Build().FindById(buildId)
-
-		if err != nil {
-			c.JSON(404, gin.H{"code": "BUILD_NOT_FOUND", "message": err.Error()})
-			c.Abort()
-			return
-		}
-
-		c.JSON(http.StatusOK, build)
-
+		c.HTML(http.StatusOK, "register.tmpl.html", gin.H{})
 	})
 
 	s.router.POST("/", func(c *gin.Context) {
@@ -118,6 +104,41 @@ func (s *server) configureRouter() {
 		s.store.Comment().AddComment(comment)
 
 		c.Redirect(http.StatusFound, c.PostForm("pageId"))
+	})
+
+	s.router.POST("/addUser", func(c *gin.Context) {
+		username := c.PostForm("username")
+		email := c.PostForm("email")
+		password := c.PostForm("password")
+
+		u := &model.User{
+			Name:     username,
+			Email:    email,
+			Password: password,
+		}
+
+		s.store.User().CreateUser(u)
+
+		c.Redirect(http.StatusFound, "/")
+	})
+
+	s.router.GET("/json", func(c *gin.Context) {
+		c.JSON(http.StatusOK, s.store.Build().GetBuilds())
+	})
+
+	s.router.GET("/json/:id", func(c *gin.Context) {
+		buildId, _ := strconv.Atoi(c.Param("id"))
+
+		build, err := s.store.Build().FindById(buildId)
+
+		if err != nil {
+			c.JSON(404, gin.H{"code": "BUILD_NOT_FOUND", "message": err.Error()})
+			c.Abort()
+			return
+		}
+
+		c.JSON(http.StatusOK, build)
+
 	})
 
 }
